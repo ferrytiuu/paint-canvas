@@ -1,0 +1,32 @@
+canvas { 
+    border: 5px solid black;
+    position: absolute;
+    margin-left: 15px;
+}
+/*
+div{
+    
+    
+    
+}
+*/
+.contenidor_base{
+    border: 5px solid grey;
+    height: 900px;
+    float: left;
+    width: 300px;
+}
+.contenidor_eines{
+    border: 5px solid red;
+    height: 440px;
+    float: left;
+    width: 290px;
+}
+
+.contenidor_opcions_eines{
+    border: 5px solid red;
+    height: 440px;
+    float: left;
+    width: 290px;
+}
+
