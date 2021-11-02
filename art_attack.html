@@ -11,10 +11,39 @@
 <body>
     <div class='contenidor_base' >
         <div class='contenidor_eines'>
+                <img class="icono" id="icono_pincel" pulsado="false" src="imatges/paintbrush.png" width="40" height="40">
+                <img class="icono" src="imatges/rubber.png" pulsado="false" width="40" height="40">
+                <img class="icono" src="imatges/color-picker.png" pulsado="false" width="40" height="40">
+                <img class="icono" src="imatges/square.png" pulsado="false" width="40" height="40">
+                <img class="icono" src="imatges/paper-clip.png" pulsado="false" width="40" height="40">
+                <img class="icono" src="imatges/cross.png" pulsado="false" width="40" height="40">
+                <input class="color" type="color" id="selector_color">
 
         </div>
         <div class="contenidor_opcions_eines">
+            <div class="editor_linea" id="editor_linea" style="visibility: hidden;">
+                <div>
+                    <label for="grosor_linea"> Gruix </label> 
+                </div>
+                <div>
+                    <input type="range" id="grosor_linea_dif" name="points" min="5" max="25">
+                </div>
+                <div>
+                    <label for="patata"> Discontinuïtat </label> 
+                </div>
+                <div>
+                    <input type="range" id="discontinuitat" name="points" min="0" max="10">
+                </div>
+                <div>
+                    <label for="patata"> Opacitat </label> 
+                </div>
+                <div>
+                    <input type="range" id="opacitat" name="points" min="0" max="1" step="0.1">
+                </div>
 
+
+            </div>
+            
         </div>
             
     </div>
