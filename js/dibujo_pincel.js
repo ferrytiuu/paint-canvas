@@ -1,12 +1,11 @@
-export function pulsar_raton(isDrawing,x,y,canvas){
+/*
     canvas.addEventListener('mousedown', e => {
             x = e.offsetX;
             y = e.offsetY;
             isDrawing = true;
     });
-}
 
-export function movimiento_raton(isDrawing,x,y,canvas,context){
+
     canvas.addEventListener('mousemove', e => {
         if (isDrawing === true) {
             dibujarLinea(context, x, y, e.offsetX, e.offsetY);
@@ -16,9 +15,8 @@ export function movimiento_raton(isDrawing,x,y,canvas,context){
 
         }
     });
-}
 
-export function levantar_raton(isDrawing,x,y,context) {
+
     window.addEventListener('mouseup', e => {
         if (isDrawing === true) {
             dibujarLinea(context, x, y, e.offsetX, e.offsetY);
@@ -27,7 +25,7 @@ export function levantar_raton(isDrawing,x,y,context) {
             isDrawing = false;
         }
     });
-}
+
 function hexToRgb(hex) { //funció per passar HEX a R G B
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
@@ -50,4 +48,4 @@ function dibujarLinea(context, x1, y1, x2, y2) {
     context.lineTo(x2, y2);
     context.stroke();
     context.closePath();
-}
+}*/
