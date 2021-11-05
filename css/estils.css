@@ -21,7 +21,6 @@ canvas {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     align-items: start;
-    border: 5px solid red;
     height: 440px;
     float: left;
     width: 290px;
@@ -43,7 +42,6 @@ img.icono{
 }
 
 .contenidor_opcions_eines{
-    border: 5px solid red;
     height: 440px;
     float: left;
     width: 290px;

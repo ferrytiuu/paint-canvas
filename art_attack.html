@@ -6,7 +6,8 @@
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='css/estils.css'>
-    <script src='js/main.js'></script>
+    <script src='js/main.js' type="module"></script>
+    <script src="js/dibujo_pincel.js" type="module"></script>
 </head>
 <body>
     <div class='contenidor_base' >
@@ -22,22 +23,24 @@
         <div class="contenidor_opcions_eines">
             <div class="sub_caja" id="editor_linea" style="visibility: hidden;">
                 <div>
-                    <label for="grosor_linea"> Gruix </label>
+                    <label for="grosor_linea"> Gruix</label>
+                    <label id="grosor_valor"></label>
                 </div>
                 <div>
-                    <input type="range" id="grosor_linea_dif" name="points" min="5" max="25" value="5">
+                    <input type="range" id="grosor_linea_dif" name="points" min="5" max="25" value="5" oninput="document.getElementById('grosor_valor').innerHTML = this.value" >
+                </div>
+                <div>
+                    <label for="opacitat"> Opacitat </label> 
+                    <label id="opacitat_valor"></label>
+                </div>
+                <div>
+                    <input type="range" id="opacitat" name="points"  min="0" max="1" step="0.1" value="1" oninput="document.getElementById('opacitat_valor').innerHTML = this.value">
                 </div>
                 <div>
                     <label for="patata"> Discontinuïtat </label> 
                 </div>
                 <div>
                     <input type="range" id="discontinuitat" name="points" min="0" max="10">
-                </div>
-                <div>
-                    <label for="patata"> Opacitat </label> 
-                </div>
-                <div>
-                    <input type="range" id="opacitat" name="points"  min="0" max="1" step="0.1" value="1">
                 </div>
             </div>
             
