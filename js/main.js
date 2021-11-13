@@ -114,7 +114,27 @@ function carga () {
     });
     document.getElementById("rectangulo").addEventListener("click", dibujar_geometria_cuadrado);
     document.getElementById("triangulo").addEventListener("click", dibujar_geometria_triangulo);
+    document.getElementById("cercle").addEventListener("click", dibujar_geometria_circulo);
+    document.getElementById("rombe").addEventListener("click", dibujar_geometria_rombe);
 
+    document.getElementById('icono_guardar').addEventListener('click', function (e) {
+
+        let estado = this.getAttribute("pulsado");
+
+        if (estado === 'true') {
+
+            menu_seleccion_desactivar(document.getElementsByClassName("icono"));
+            this.setAttribute("pulsado", "false");
+            eliminar_eventos();
+            
+        }
+        else {
+            eliminar_eventos();
+            menu_seleccion_desactivar(document.getElementsByClassName("icono"));
+            menu_seleccion_activar(this);
+
+        }
+    });
 
     document.getElementById('icono_cruz').addEventListener('click', function (e) {
         if (confirm('Vols netejar el canvas?')) {
@@ -122,6 +142,7 @@ function carga () {
         }
     });
 
+    
 
 }
 
@@ -252,6 +273,104 @@ function triangulo_levantar(e){
     }
 
 }
+function dibujar_geometria_circulo(){
+    eliminar_eventos()
+    console.log("se crea enventos de geometria linea")
+    canvas.addEventListener('mousedown',circulo_click);
+    canvas.addEventListener('mousemove', circulo_moviendo);
+    canvas.addEventListener('mouseup',circulo_levantar);
+    
+}
+function circulo_click(e){
+    x = e.offsetX;
+    y = e.offsetY;
+    isDrawing = true;
+}
+function circulo_moviendo (e){
+    if (isDrawing === true) {
+       
+        drawCtx.clearRect(0,0,1500,900);
+        dibujarCirculo(drawCtx,x ,y,e.offsetX, e.offsetY);
+        
+ 
+    }
+}
+function circulo_levantar(e){
+    if (isDrawing === true) {
+
+        /*
+        dibujarLinea(context,x ,e.offsetY,e.offsetX, e.offsetY);
+        dibujarLinea(context,x+(e.offsetX-x)/2 ,y,x ,e.offsetY);
+        dibujarLinea(context,x+(e.offsetX-x)/2 ,y,e.offsetX, e.offsetY);
+        */
+        dibujarCirculo(context,x ,y,e.offsetX, e.offsetY);
+        drawCtx.clearRect(0,0,1500,900);
+        x = 0;
+        y = 0;
+        isDrawing = false;
+    }
+
+}
+function dibujar_geometria_rombe(){
+    eliminar_eventos()
+    console.log("se crea enventos de geometria linea")
+    canvas.addEventListener('mousedown',rombe_click);
+    canvas.addEventListener('mousemove', rombe_moviendo);
+    canvas.addEventListener('mouseup',rombe_levantar);
+    
+}
+function rombe_click(e){
+
+    //drawCtx.save();
+    
+    x = e.offsetX;
+    y = e.offsetY;
+    isDrawing = true;
+    let deg = Math.PI/180;
+    trasladar(drawCtx, x, y);
+    drawCtx.rotate(45 * deg);
+    
+    
+
+    
+
+    
+}
+function rombe_moviendo (e){
+    if (isDrawing === true) {
+        //trasladar(drawCtx, x*-1, y*-1);
+        drawCtx.clearRect(-x, -y,1500,900);
+        //trasladar(drawCtx, x, y);
+        dibujarRombe(drawCtx,x ,y,e.offsetX, e.offsetY);
+    }
+}
+function rombe_levantar(e){
+    if (isDrawing === true) {
+
+        /*
+        dibujarLinea(context,x ,e.offsetY,e.offsetX, e.offsetY);
+        dibujarLinea(context,x+(e.offsetX-x)/2 ,y,x ,e.offsetY);
+        dibujarLinea(context,x+(e.offsetX-x)/2 ,y,e.offsetX, e.offsetY);
+        */
+
+        let deg = Math.PI/180;
+        //trasladar(context, x, y);
+        context.rotate(45 * deg);
+
+        dibujarRombe(context,x ,y,e.offsetX, e.offsetY);
+        drawCtx.clearRect(0,0,200000,200000);
+        x = 0;
+        y = 0;
+        isDrawing = false;
+        drawCtx.setTransform(1,0,0,1,0,0);
+        context.setTransform(1,0,0,1,0,0);
+        
+        
+
+    
+    }
+
+}
 function eliminar_eventos(){
     console.log("se ejecuta eliminar eventos");
 
@@ -270,6 +389,14 @@ function eliminar_eventos(){
     canvas.removeEventListener('mousedown',triangulo_click);
     canvas.removeEventListener('mousemove', triangulo_moviendo);
     canvas.removeEventListener('mouseup',triangulo_levantar);
+
+    canvas.removeEventListener('mousedown',circulo_click);
+    canvas.removeEventListener('mousemove', circulo_moviendo);
+    canvas.removeEventListener('mouseup',circulo_levantar);
+
+    canvas.removeEventListener('mousedown',rombe_click);
+    canvas.removeEventListener('mousemove', rombe_moviendo);
+    canvas.removeEventListener('mouseup',rombe_levantar);
 
 
 
@@ -292,7 +419,7 @@ function dibujarLinea(context2, x1, y1, x2, y2) {
         context2.setLineDash([3, 3]);
     }else if(document.getElementById('disc_linies').checked == true){
         console.log('linies');
-        context2.setLineDash([20, 5,]);
+        context2.setLineDash([20, 20,]);
     }else{
         console.log('normal');
         context2.setLineDash([]);
@@ -301,6 +428,7 @@ function dibujarLinea(context2, x1, y1, x2, y2) {
     context2.beginPath();
     context2.strokeStyle = colorOpacitat;
     //context.setLineDash([1,1]);
+    context2.lineCap = 'round';
     context2.lineWidth = document.getElementById('grosor_linea_dif').value;
     context2.moveTo(x1, y1);
     context2.lineTo(x2, y2);
@@ -309,11 +437,11 @@ function dibujarLinea(context2, x1, y1, x2, y2) {
 }
 function borrarLinea(context2, x1, y1, x2, y2) {
     console.log("borrar");
-    context2.beginPath();
-    context2.lineWidth = document.getElementById('grosor_goma_dif').value;
-    context2.moveTo(x1, y1);
-    context2.closePath();
-    context2.clearRect(x2, y2, 40, 40);ç
+    //context2.beginPath();
+    let grosor = document.getElementById('grosor_goma_dif').value;
+    //context2.moveTo(x2, y2);
+    //context2.closePath();
+    context2.clearRect(x2, y2, grosor, grosor);
     
 
 }
@@ -356,20 +484,6 @@ function dibujarTriangulo(context2, x1, y1, x2, y2){
     context2.lineWidth = document.getElementById('grosor_forma_dif').value;
     
 
-    
-
-    /*
-    context2.moveTo(x1, y2);
-    context2.lineTo(x2, y2);
-
-    //context2.moveTo(x1+(x2-x1)/2, y1);
-    context2.lineTo(x1, y2);
-
-    //context2.moveTo(x1+(x2-x1)/2, y1);
-    context2.lineTo(x2, y2);
-    */
-    
-
     context2.moveTo(x1+(x2-x1)/2, y1);
     context2.lineTo(x1, y2);
 
@@ -387,9 +501,88 @@ function dibujarTriangulo(context2, x1, y1, x2, y2){
     }else{
         context2.stroke();
     }
-     
-
     
     
     
 }
+function dibujarCirculo(context2, x1, y1, x2, y2) {
+    
+    console.log("cargas circulo");
+    let rgbcolorVora = hexToRgb(document.getElementById('selector_color').value);
+    let colorOpacitatVora = `rgba(${rgbcolorVora.r},${rgbcolorVora.g},${rgbcolorVora.b},${document.getElementById('opacitat_forma').value})`;
+    let rgbcolorFons = hexToRgb(document.getElementById('selector_color2').value);
+    let colorOpacitatFons = `rgba(${rgbcolorFons.r},${rgbcolorFons.g},${rgbcolorFons.b},${document.getElementById('opacitat_forma').value})`;
+    context2.setLineDash([]);
+
+    context2.strokeStyle = colorOpacitatVora;
+    context2.fillStyle = colorOpacitatFons;
+    context2.lineWidth = document.getElementById('grosor_forma_dif').value;
+
+    context2.beginPath();
+    let radio = Math.sqrt(((y2-y1)*(y2-y1))+((x2-x1)*(x2-x1)));
+    let diferenciaX = (x2-x1)+x1;
+    let diferenciaY =  (y2-y1)+y1;
+    context2.arc(diferenciaX,diferenciaY, radio, 0, 2 * Math.PI, false);
+    
+    context2.strokeStyle = '#003300';
+    if(document.getElementById('forma_plena').checked == true){
+        context2.stroke();
+        context2.fill();
+    }else{
+        context2.stroke();
+    }
+    
+    console.log(x1, y1, x2, y2)
+}
+function dibujarRombe(context2, x1, y1, x2, y2) {
+    
+    
+    console.log("cargas rombo");
+    let rgbcolorVora = hexToRgb(document.getElementById('selector_color').value);
+    let colorOpacitatVora = `rgba(${rgbcolorVora.r},${rgbcolorVora.g},${rgbcolorVora.b},${document.getElementById('opacitat_forma').value})`;
+    let rgbcolorFons = hexToRgb(document.getElementById('selector_color2').value);
+    let colorOpacitatFons = `rgba(${rgbcolorFons.r},${rgbcolorFons.g},${rgbcolorFons.b},${document.getElementById('opacitat_forma').value})`;
+
+    
+    let width = Math.abs(x2 - x1) * (x2 < x1 ? -1 : 1);
+    let height = Math.abs(width) * (y2 < y1 ? -1 : 1);
+    
+    //trasladar(context2, x1, y1, x2, y2)
+    context2.rect(0, 0, width, height);
+    context2.fill();
+    
+
+    console.log(x1, y1, x2, y2)
+}
+function trasladar(context2, x1, y1){
+    /*
+    let width = Math.abs(x2 - x1) * (x2 < x1 ? -1 : 1);
+    let height = Math.abs(width) * (y2 < y1 ? -1 : 1);
+
+    let diferenciaX = (x1+height)/2;
+    let diferenciaY =  (y1+width)/2;
+
+    */
+
+    
+    context2.translate(x1, y1);
+    
+    //console.log("diferenciaX: "+diferenciaX+"diferenciaY: "+diferenciaY);
+    
+    
+}
+
+function guardar(){
+    let link = document.createElement('a');
+    let nomarxiu = document.getElementById('nom_arxiu_guardar').value;
+    console.log(nomarxiu);
+    link.download = nomarxiu+'.png';
+    link.href = canvas.toDataURL();
+    link.click();
+    link.delete;
+}
+
+
+document.getElementById('enviar_nom_arxiu').addEventListener('click', function (e) {
+    guardar();
+});

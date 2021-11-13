@@ -23,7 +23,9 @@
                 height="40">
             <img icn_pulsado="imatges/clicked_paper-clip.png" icn_no_pulsado="imatges/paper-clip.png" class="icono"
                 id="icono_clip" pulsado="false" src="imatges/paper-clip.png" width="40" height="40">
-            <img icn_pulsado="imatges/clicked_corss.png" icn_no_pulsado="imatges/cross.png" class="icono"
+            <img icn_pulsado="imatges/clicked_save.png" icn_no_pulsado="imatges/save.png" class="icono"
+                id="icono_guardar" pulsado="false" submenu="editor_guardar" src="imatges/save.png" width="40" height="40">
+            <img icn_pulsado="imatges/clicked_cross.png" icn_no_pulsado="imatges/cross.png" class="icono"
                 id="icono_cruz" pulsado="false" src="imatges/cross.png" width="40" height="40">
             <input class="color" type="color" id="selector_color">
             <input class="color_relleno" type="color" id="selector_color2">
@@ -84,6 +86,21 @@
                 <div>
                     <input type="button" id="triangulo" name="triangulo">
                 </div>
+
+                <div>
+                    <label for="cercle"> cercle </label>
+                </div>
+                <div>
+                    <input type="button" id="cercle" name="circulo">
+                </div>
+
+                <div>
+                    <label for="rombe"> rombe </label>
+                </div>
+                <div>
+                    <input type="button" id="rombe" name="rombe">
+                </div>
+
                 <div>
                     <label for="emplenar"> Emplenar la forma? </label>
                 </div>
@@ -110,15 +127,18 @@
                         oninput="document.getElementById('opacitat_forma_valor').innerHTML = this.value">
                 </div>
             </div>
-            
+            <div class="sub_caja" id="editor_guardar" style="visibility: hidden;">
+                <label for="nom_arxiu"> Introdueix el nom de l'arxiu (sense extensió) </label>
+                <input type="text" id="nom_arxiu_guardar">
+                <button id="enviar_nom_arxiu">Enviar</button>
+            </div>
+
         </div>
     </div>
     </div>
     <label id="video"><a href="video.html">Necessites ajuda?</a></label>
     <canvas class="canvas" id="area" width="1500" height="900"></canvas>
     <canvas class="canvas" id="area2" width="1500" height="900"></canvas>
-
-
 
 
 </body>
