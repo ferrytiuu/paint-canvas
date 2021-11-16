@@ -46,13 +46,6 @@ const drawCtx = drawCanvas.getContext("2d");
 
 function carga() {
 
-    WebFont.load({
-        google: {
-            families: ['Permanent Marker', 'Architects Daughter','Pacifico']
-        }
-      });
-
-
 
     document.getElementById('icono_pincel').addEventListener('click', function (e) {
 
@@ -70,9 +63,6 @@ function carga() {
             menu_seleccion_desactivar(document.getElementsByClassName("icono"));
             menu_seleccion_activar(this);
             dibujar_pincel();
-            //crear eventos
-
-
 
         }
 
@@ -96,11 +86,6 @@ function carga() {
 
         }
     });
-
-    document.getElementById("arxiu").addEventListener('change', function () {
-        imatge_forma = document.querySelector('input[type=file]').files[0];
-    });
-
     document.getElementById('icono_forma').addEventListener('click', function (e) {
 
         let estado = this.getAttribute("pulsado");
@@ -117,38 +102,18 @@ function carga() {
             menu_seleccion_desactivar(document.getElementsByClassName("icono"));
             menu_seleccion_activar(this);
 
-            //crear eventos
-
-
-
         }
+
+
 
     });
-    document.getElementById('icono_texto').addEventListener('click', function (e) {
-
-        let estado = this.getAttribute("pulsado");
-
-        if (estado === 'true') {
-
-            menu_seleccion_desactivar(document.getElementsByClassName("icono"));
-            this.setAttribute("pulsado", "false");
-            eliminar_eventos();
-
-        }
-        else {
-            eliminar_eventos();
-            menu_seleccion_desactivar(document.getElementsByClassName("icono"));
-            menu_seleccion_activar(this);
-            dibujar_texto_rectangulo();
-
-        }
+    document.getElementById("arxiu").addEventListener('change', function () {
+        imatge_forma = document.querySelector('input[type=file]').files[0];
     });
-    document.getElementById("linea").addEventListener("click", dibujar_geometria_linea);
-    document.getElementById("cuadrado").addEventListener("click", dibujar_geometria_cuadrado);
-    document.getElementById("rectangulo").addEventListener("click", dibujar_geometria_rectangulo);
+    document.getElementById("rectangulo").addEventListener("click", dibujar_geometria_cuadrado);
     document.getElementById("triangulo").addEventListener("click", dibujar_geometria_triangulo);
     document.getElementById("cercle").addEventListener("click", dibujar_geometria_circulo);
-    //document.getElementById("rombe").addEventListener("click", dibujar_geometria_rombe);
+    document.getElementById("rombe").addEventListener("click", dibujar_geometria_rombe);
 
     document.getElementById('icono_guardar').addEventListener('click', function (e) {
 
@@ -208,41 +173,8 @@ function dibujar_levantar(e) {
     }
 
 }
-function dibujar_geometria_linea() {
-    eliminar_eventos();
-    console.log("se crea enventos de pincel")
-    canvas.addEventListener('mousedown', dibujar_linea_click);
-    canvas.addEventListener('mousemove', dibujar_linea_moviendo);
-    canvas.addEventListener('mouseup', dibujar_linea_levantar);
-
-}
-function dibujar_linea_click(e) {
-    x = e.offsetX;
-    y = e.offsetY;
-    isDrawing = true;
-}
-function dibujar_linea_moviendo(e) {
-    if (isDrawing === true) {
-        drawCtx.clearRect(0, 0, 1500, 900);
-        dibujar_geometria_Linea(drawCtx, x, y, e.offsetX, e.offsetY);
-        //x = e.offsetX;
-        //y = e.offsetY;
-
-    }
-}
-function dibujar_linea_levantar(e) {
-    if (isDrawing === true) {
-        drawCtx.clearRect(0, 0, 1500, 900);
-        dibujar_geometria_Linea(context, x, y, e.offsetX, e.offsetY);
-        x = 0;
-        y = 0;
-        isDrawing = false;
-    }
-
-}
 
 function dibujar_goma() {
-    eliminar_eventos();
     console.log("se crea enventos de borrar linea")
     canvas.addEventListener('mousedown', goma_click);
     canvas.addEventListener('mousemove', goma_moviendo);
@@ -286,48 +218,14 @@ function cuadrado_click(e) {
 function cuadrado_moviendo(e) {
     if (isDrawing === true) {
 
-
-        //drawCtx.setTransform(1,0,0,1,0,0);
         drawCtx.clearRect(0, 0, 1500, 900);
-        dibujarCuadrado(drawCtx, x, y, e.offsetX - x, e.offsetY - y, false);
+        dibujarCuadrado(drawCtx, x, y, e.offsetX - x, e.offsetY - y);
 
     }
 }
 function cuadrado_levantar(e) {
     if (isDrawing === true) {
-        drawCtx.clearRect(0, 0, 1500, 900);
-        dibujarCuadrado(context, x, y, e.offsetX - x, e.offsetY - y, true);
-
-        x = 0;
-        y = 0;
-        isDrawing = false;
-    }
-
-}
-function dibujar_geometria_rectangulo() {
-    eliminar_eventos();
-    console.log("se crea enventos de geometria linea")
-    canvas.addEventListener('mousedown', rectangulo_click);
-    canvas.addEventListener('mousemove', rectangulo_moviendo);
-    canvas.addEventListener('mouseup', rectangulo_levantar);
-
-}
-function rectangulo_click(e) {
-    x = e.offsetX;
-    y = e.offsetY;
-    isDrawing = true;
-}
-function rectangulo_moviendo(e) {
-    if (isDrawing === true) {
-
-        drawCtx.clearRect(0, 0, 1500, 900);
-        dibujarRectangulo(drawCtx, x, y, e.offsetX - x, e.offsetY - y);
-
-    }
-}
-function rectangulo_levantar(e) {
-    if (isDrawing === true) {
-        dibujarRectangulo(context, x, y, e.offsetX - x, e.offsetY - y);
+        dibujarCuadrado(context, x, y, e.offsetX - x, e.offsetY - y);
         drawCtx.clearRect(0, 0, 1500, 900);
         x = 0;
         y = 0;
@@ -471,47 +369,12 @@ function rombe_levantar(e) {
     }
 
 }
-function dibujar_texto_rectangulo() {
-    eliminar_eventos();
-    console.log("se crea enventos de rectangulo texto")
-    canvas.addEventListener('mousedown', rectangulo_texto_click);
-    canvas.addEventListener('mousemove', rectangulo_text_moviendo);
-    canvas.addEventListener('mouseup', rectangulo_texto_levantar);
-
-}
-function rectangulo_texto_click(e) {
-    x = e.offsetX;
-    y = e.offsetY;
-    isDrawing = true;
-}
-function rectangulo_text_moviendo(e) {
-    if (isDrawing === true) {
-
-        drawCtx.clearRect(0, 0, 1500, 900);
-        dibujartextoRectangulo(drawCtx, x - 20, y - 40, e.offsetX - x, e.offsetY - y, true);
-
-    }
-}
-function rectangulo_texto_levantar(e) {
-    if (isDrawing === true) {
-        dibujartextoRectangulo(context, x - 20, y - 40, e.offsetX - x, e.offsetY - y, false);
-        drawCtx.clearRect(0, 0, 1500, 900);
-        x = 0;
-        y = 0;
-        isDrawing = false;
-    }
-
-}
 function eliminar_eventos() {
     console.log("se ejecuta eliminar eventos");
 
     canvas.removeEventListener('mousemove', dibujar_moviendo);
     canvas.removeEventListener('mousedown', dibujar_click);
     canvas.removeEventListener('mouseup', dibujar_levantar);
-
-    canvas.removeEventListener('mousedown', dibujar_linea_click);
-    canvas.removeEventListener('mousemove', dibujar_linea_moviendo);
-    canvas.removeEventListener('mouseup', dibujar_linea_levantar);
 
     canvas.removeEventListener('mousedown', goma_click);
     canvas.removeEventListener('mousemove', goma_moviendo);
@@ -520,10 +383,6 @@ function eliminar_eventos() {
     canvas.removeEventListener('mousedown', cuadrado_click);
     canvas.removeEventListener('mousemove', cuadrado_moviendo);
     canvas.removeEventListener('mouseup', cuadrado_levantar);
-
-    canvas.removeEventListener('mousedown', rectangulo_click);
-    canvas.removeEventListener('mousemove', rectangulo_moviendo);
-    canvas.removeEventListener('mouseup', rectangulo_levantar);
 
     canvas.removeEventListener('mousedown', triangulo_click);
     canvas.removeEventListener('mousemove', triangulo_moviendo);
@@ -537,10 +396,6 @@ function eliminar_eventos() {
     canvas.removeEventListener('mousemove', rombe_moviendo);
     canvas.removeEventListener('mouseup', rombe_levantar);
 
-    canvas.removeEventListener('mousedown', rectangulo_texto_click);
-    canvas.removeEventListener('mousemove', rectangulo_text_moviendo);
-    canvas.removeEventListener('mouseup', rectangulo_texto_levantar);
-
 
 
 }
@@ -553,74 +408,26 @@ function hexToRgb(hex) { //funció per passar HEX a R G B
     } : null;
 }
 
-function dibujar_geometria_Linea(context2, x1, y1, x2, y2) {
-    console.log("cargas lineas");
-    let rgbcolorVora = hexToRgb(document.getElementById('selector_color').value);
-    let colorOpacitatVora = `rgba(${rgbcolorVora.r},${rgbcolorVora.g},${rgbcolorVora.b},${document.getElementById('opacitat_forma').value})`;
-    let rgbcolorFons = hexToRgb(document.getElementById('selector_color2').value);
-    let colorOpacitatFons = `rgba(${rgbcolorFons.r},${rgbcolorFons.g},${rgbcolorFons.b},${document.getElementById('opacitat_forma').value})`;
-    let valores = document.getElementById('tipus_linea').options[document.getElementById('tipus_linea').selectedIndex].value;
-    console.log(valores);
-    valores = parseInt(valores);
-
-    if (valores == 1) {
-        console.log('punts');
-        context2.setLineDash([]);
-    } else if (valores == 2) {
-        console.log('linies');
-        context2.setLineDash([1, 1,]);
-    }
-    else if (valores == 3) {
-        console.log('normal');
-        context2.setLineDash([10, 10]);
-    }
-    else if (valores == 4) {
-        console.log('normal');
-        context2.setLineDash([20, 5]);
-    }
-
-    //console.log(colorOpacitat);
-    context2.beginPath();
-    context2.strokeStyle = colorOpacitatVora;
-    //context.setLineDash([1,1]);
-    context2.lineCap = 'round';
-    context2.lineWidth = document.getElementById('grosor_forma_dif').value;
-    context2.moveTo(x1, y1);
-    context2.lineTo(x2, y2);
-    context2.stroke();
-    context2.closePath();
-}
-
-
 function dibujarLinea(context2, x1, y1, x2, y2) {
     console.log("cargas lineas");
     let rgbcolor = hexToRgb(document.getElementById('selector_color').value);
     let colorOpacitat = `rgba(${rgbcolor.r},${rgbcolor.g},${rgbcolor.b},${document.getElementById('opacitat_linea').value})`;
-    let valores = document.getElementById('tipus_linea').options[document.getElementById('tipus_linea').selectedIndex].value;
-    console.log(valores);
-    valores = parseInt(valores);
-
-    if (valores == 1) {
+    if (document.getElementById('disc_punts').checked == true) {
         console.log('punts');
-        context2.setLineDash([]);
-    } else if (valores == 2) {
+        context2.setLineDash([3, 3]);
+    } else if (document.getElementById('disc_linies').checked == true) {
         console.log('linies');
-        context2.setLineDash([1, 1,]);
-    }
-    else if (valores == 3) {
+        context2.setLineDash([20, 20,]);
+    } else {
         console.log('normal');
-        context2.setLineDash([10, 10]);
+        context2.setLineDash([]);
     }
-    else if (valores == 4) {
-        console.log('normal');
-        context2.setLineDash([20, 5]);
-    }
-
+    //console.log(colorOpacitat);
     context2.beginPath();
     context2.strokeStyle = colorOpacitat;
     //context.setLineDash([1,1]);
     context2.lineCap = 'round';
-    context2.lineWidth = document.getElementById('grosor_forma_dif_ma').value;
+    context2.lineWidth = document.getElementById('grosor_linea_dif').value;
     context2.moveTo(x1, y1);
     context2.lineTo(x2, y2);
     context2.stroke();
@@ -629,119 +436,23 @@ function dibujarLinea(context2, x1, y1, x2, y2) {
 function borrarLinea(context2, x1, y1, x2, y2) {
     console.log("borrar");
     //context2.beginPath();
-    let grosor = document.getElementById('grosor_forma_dif_ma').value;
+    let grosor = document.getElementById('grosor_goma_dif').value;
     //context2.moveTo(x2, y2);
     //context2.closePath();
     context2.clearRect(x2, y2, grosor, grosor);
 
 
 }
-function dibujarCuadrado(context2, x1, y1, x2, y2, final) {
+function dibujarCuadrado(context2, x1, y1, x2, y2) {
 
     console.log("cargas rectangulo");
     let rgbcolorVora = hexToRgb(document.getElementById('selector_color').value);
     let colorOpacitatVora = `rgba(${rgbcolorVora.r},${rgbcolorVora.g},${rgbcolorVora.b},${document.getElementById('opacitat_forma').value})`;
     let rgbcolorFons = hexToRgb(document.getElementById('selector_color2').value);
     let colorOpacitatFons = `rgba(${rgbcolorFons.r},${rgbcolorFons.g},${rgbcolorFons.b},${document.getElementById('opacitat_forma').value})`;
-    //ontext2.setLineDash([]);
+    context2.setLineDash([]);
+    
 
-    context2.strokeStyle = colorOpacitatVora;
-    context2.fillStyle = colorOpacitatFons;
-    context2.lineWidth = document.getElementById('grosor_forma_dif').value;
-
-    let valores = document.getElementById('tipus_linea').options[document.getElementById('tipus_linea').selectedIndex].value;
-    console.log(valores);
-    valores = parseInt(valores);
-
-
-    if (valores == 1) {
-        console.log('punts');
-        context2.setLineDash([]);
-    } else if (valores == 2) {
-        console.log('linies');
-        context2.setLineDash([1, 1,]);
-    }
-    else if (valores == 3) {
-        console.log('normal');
-        context2.setLineDash([10, 10]);
-    }
-    else if (valores == 4) {
-        console.log('normal');
-        context2.setLineDash([20, 5]);
-    }
-
-
-    context2.strokeStyle = colorOpacitatVora;
-    context2.fillStyle = colorOpacitatFons;
-    context2.lineWidth = document.getElementById('grosor_forma_dif').value;
-
-    if (final) {
-        let final_value;
-        if (x2 >= y2) {
-            final_value = x2;
-        }
-        else if (y2 >= x2) {
-            final_value = y2;
-        }
-        if (document.getElementById('forma_plena').checked == true) {
-            context2.fillRect(x1, y1, final_value, final_value);
-            context2.strokeRect(x1, y1, final_value, final_value);
-
-        } else if (document.getElementById('forma_imatge').checked == true) {
-            console.log(imatge_forma.name);
-            let imatge = new Image();
-            imatge.src = URL.createObjectURL(imatge_forma);
-            imatge.onload = function () {
-                let patktern = context2.createPattern(imatge, 'repeat');
-                context2.fillStyle = pattern;
-                context2.fillRect(x1, y1, final_value, final_value);
-            }
-            context2.strokeRect(x1, y1, final_value, final_value);
-
-        } else {
-            context2.moveTo(x1, y1);
-            context2.strokeRect(x1, y1, final_value, final_value);
-        }
-        return;
-
-    }
-
-    if (document.getElementById('forma_plena').checked == true) {
-        context2.fillRect(x1, y1, x2, y2);
-        context2.strokeRect(x1, y1, x2, y2);
-
-    } else {
-        context2.moveTo(x1, y1);
-        context2.strokeRect(x1, y1, x2, y2);
-    }
-    console.log(x1, y1, x2, y2)
-}
-function dibujarRectangulo(context2, x1, y1, x2, y2) {
-
-    console.log("cargas rectangulo");
-    let rgbcolorVora = hexToRgb(document.getElementById('selector_color').value);
-    let colorOpacitatVora = `rgba(${rgbcolorVora.r},${rgbcolorVora.g},${rgbcolorVora.b},${document.getElementById('opacitat_forma').value})`;
-    let rgbcolorFons = hexToRgb(document.getElementById('selector_color2').value);
-    let colorOpacitatFons = `rgba(${rgbcolorFons.r},${rgbcolorFons.g},${rgbcolorFons.b},${document.getElementById('opacitat_forma').value})`;
-    let valores = document.getElementById('tipus_linea').options[document.getElementById('tipus_linea').selectedIndex].value;
-    console.log(valores);
-    valores = parseInt(valores);
-
-    if (valores == 1) {
-        console.log('punts');
-        context2.setLineDash([]);
-    } else if (valores == 2) {
-        console.log('linies');
-        context2.setLineDash([1, 1,]);
-    }
-    else if (valores == 3) {
-        console.log('normal');
-        context2.setLineDash([10, 10]);
-    }
-    else if (valores == 4) {
-        console.log('normal');
-        context2.setLineDash([20, 5]);
-    }
 
     context2.strokeStyle = colorOpacitatVora;
     context2.fillStyle = colorOpacitatFons;
@@ -756,7 +467,7 @@ function dibujarRectangulo(context2, x1, y1, x2, y2) {
         let imatge = new Image();
         imatge.src = URL.createObjectURL(imatge_forma);
         imatge.onload = function(){
-            let pattern = context2.createPattern(imatge, 'repeat');
+            let patktern = context2.createPattern(imatge, 'repeat');
             context2.fillStyle = pattern;
             context2.fillRect(x1, y1, x2, y2);
         }
@@ -774,26 +485,7 @@ function dibujarTriangulo(context2, x1, y1, x2, y2) {
     let colorOpacitatVora = `rgba(${rgbcolorVora.r},${rgbcolorVora.g},${rgbcolorVora.b},${document.getElementById('opacitat_forma').value})`;
     let rgbcolorFons = hexToRgb(document.getElementById('selector_color2').value);
     let colorOpacitatFons = `rgba(${rgbcolorFons.r},${rgbcolorFons.g},${rgbcolorFons.b},${document.getElementById('opacitat_forma').value})`;
-    let valores = document.getElementById('tipus_linea').options[document.getElementById('tipus_linea').selectedIndex].value;
-    console.log(valores);
-    valores = parseInt(valores);
-
-    if (valores == 1) {
-        console.log('punts');
-        context2.setLineDash([]);
-    } else if (valores == 2) {
-        console.log('linies');
-        context2.setLineDash([1, 1,]);
-    }
-    else if (valores == 3) {
-        console.log('normal');
-        context2.setLineDash([10, 10]);
-    }
-    else if (valores == 4) {
-        console.log('normal');
-        context2.setLineDash([20, 5]);
-    }
-
+    context2.setLineDash([]);
 
     context2.strokeStyle = colorOpacitatVora;
     context2.fillStyle = colorOpacitatFons;
@@ -816,37 +508,10 @@ function dibujarTriangulo(context2, x1, y1, x2, y2) {
     if (document.getElementById('forma_plena').checked == true) {
         context2.stroke();
         context2.fill();
-    } else if (document.getElementById('forma_imatge').checked == true) {
-        context2.stroke();let imatge = new Image();
-        imatge.src = URL.createObjectURL(imatge_forma);
-        imatge.onload = function(){
-            let pattern = context2.createPattern(imatge, 'repeat');
-            context2.fillStyle = pattern;
-            context2.fill();
-        }
-        context2.stroke();
     } else {
         context2.stroke();
     }
-    
-    /*if (document.getElementById('forma_plena').checked == true) {
-        context2.fillRect(x1, y1, x2, y2);
-        context2.strokeRect(x1, y1, x2, y2);
 
-    } else if (document.getElementById('forma_imatge').checked == true) {
-        console.log(imatge_forma.name);
-        let imatge = new Image();
-        imatge.src = URL.createObjectURL(imatge_forma);
-        imatge.onload = function(){
-            let pattern = context2.createPattern(imatge, 'repeat');
-            context2.fillStyle = pattern;
-            context2.fillRect(x1, y1, x2, y2);
-        }
-        context2.strokeRect(x1, y1, x2, y2);
-    } else {
-        context2.moveTo(x1, y1);
-        context2.strokeRect(x1, y1, x2, y2);
-    }*/
 
 
 }
@@ -857,26 +522,7 @@ function dibujarCirculo(context2, x1, y1, x2, y2) {
     let colorOpacitatVora = `rgba(${rgbcolorVora.r},${rgbcolorVora.g},${rgbcolorVora.b},${document.getElementById('opacitat_forma').value})`;
     let rgbcolorFons = hexToRgb(document.getElementById('selector_color2').value);
     let colorOpacitatFons = `rgba(${rgbcolorFons.r},${rgbcolorFons.g},${rgbcolorFons.b},${document.getElementById('opacitat_forma').value})`;
-    let valores = document.getElementById('tipus_linea').options[document.getElementById('tipus_linea').selectedIndex].value;
-    console.log(valores);
-    valores = parseInt(valores);
-
-    if (valores == 1) {
-        console.log('punts');
-        context2.setLineDash([]);
-    } else if (valores == 2) {
-        console.log('linies');
-        context2.setLineDash([1, 1,]);
-    }
-    else if (valores == 3) {
-        console.log('normal');
-        context2.setLineDash([10, 10]);
-    }
-    else if (valores == 4) {
-        console.log('normal');
-        context2.setLineDash([20, 5]);
-    }
-
+    context2.setLineDash([]);
 
     context2.strokeStyle = colorOpacitatVora;
     context2.fillStyle = colorOpacitatFons;
@@ -906,25 +552,6 @@ function dibujarRombe(context2, x1, y1, x2, y2) {
     let colorOpacitatVora = `rgba(${rgbcolorVora.r},${rgbcolorVora.g},${rgbcolorVora.b},${document.getElementById('opacitat_forma').value})`;
     let rgbcolorFons = hexToRgb(document.getElementById('selector_color2').value);
     let colorOpacitatFons = `rgba(${rgbcolorFons.r},${rgbcolorFons.g},${rgbcolorFons.b},${document.getElementById('opacitat_forma').value})`;
-    let valores = document.getElementById('tipus_linea').options[document.getElementById('tipus_linea').selectedIndex].value;
-    console.log(valores);
-    valores = parseInt(valores);
-
-    if (valores == 1) {
-        console.log('punts');
-        context2.setLineDash([]);
-    } else if (valores == 2) {
-        console.log('linies');
-        context2.setLineDash([1, 1,]);
-    }
-    else if (valores == 3) {
-        console.log('normal');
-        context2.setLineDash([10, 10]);
-    }
-    else if (valores == 4) {
-        console.log('normal');
-        context2.setLineDash([20, 5]);
-    }
 
 
     let width = Math.abs(x2 - x1) * (x2 < x1 ? -1 : 1);
@@ -934,83 +561,6 @@ function dibujarRombe(context2, x1, y1, x2, y2) {
     context2.rect(0, 0, width, height);
     context2.fill();
 
-
-    console.log(x1, y1, x2, y2)
-}
-function dibujartextoRectangulo(context2, x1, y1, x2, y2, estado) {
-
-    console.log("cargas rectangulo");
-    let rgbcolorVora = hexToRgb(document.getElementById('selector_color').value);
-    let colorOpacitatVora = `rgba(${rgbcolorVora.r},${rgbcolorVora.g},${rgbcolorVora.b},${document.getElementById('opacitat_forma').value})`;
-    let rgbcolorFons = hexToRgb(document.getElementById('selector_color2').value);
-    let colorOpacitatFons = `rgba(${rgbcolorFons.r},${rgbcolorFons.g},${rgbcolorFons.b},${document.getElementById('opacitat_forma').value})`;
-    let valores = document.getElementById('tipus_linea').options[document.getElementById('tipus_linea').selectedIndex].value;
-    console.log(valores);
-    valores = parseInt(valores);
-
-
-
-    console.log('normal');
-    context2.setLineDash([10, 10]);
-
-
-    context2.strokeStyle = colorOpacitatVora;
-    context2.fillStyle = "black";
-    context2.lineWidth = document.getElementById('grosor_forma_dif').value;
-
-    let text = document.getElementById('text').value;
-     //= 'italic 50px Pacifico ';
-    let lineHeight = 40;
-    let font = document.getElementById('mida_font').value;
-    let tipus_font = document.getElementById('select_font').options[document.getElementById('select_font').selectedIndex].value;
-
-    let sub_tipus = document.querySelector('input[name="subtipus_font"]:checked').value;
-
-
-    context2.font = `${sub_tipus} ${font}px ${tipus_font}`
-
-
-    ///
-
-    x2 = x2 || 0;
-
-    if (x2 <= 0) {
-        context.fillText(text, x1, y1);
-        return;
-    }
-    var words = text.split(/[\s,\r\n]+/);
-    var currentLine = 0;
-    var idx = 1;
-    while (words.length > 0 && idx <= words.length) {
-        var str = words.slice(0, idx).join(' ');
-        var w = context2.measureText(str).width;
-        if (w > x2) {
-            if (idx == 1) {
-                idx = 2;
-            }
-            context2.fillText(words.slice(0, idx - 1).join(' '), x, y + (lineHeight * currentLine), x2);
-            currentLine++;
-            words = words.splice(idx - 1);
-            idx = 1;
-        }
-        else { idx++; }
-    }
-    if (idx > 0)
-        context2.fillText(words.join(' '), x, y + (lineHeight * currentLine), x2);
-
-    /////
-
-    if (estado) {
-        if (document.getElementById('forma_plena').checked == true) {
-            context2.fillRect(x1, y1, x2, y2);
-            context2.strokeRect(x1, y1, x2, y2);
-
-        } else {
-            context2.moveTo(x1, y1);
-            context2.strokeRect(x1, y1, x2, y2);
-        }
-
-    }
 
     console.log(x1, y1, x2, y2)
 }
@@ -1046,3 +596,4 @@ function guardar() {
 document.getElementById('enviar_nom_arxiu').addEventListener('click', function (e) {
     guardar();
 });
+

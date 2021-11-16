@@ -1,5 +1,5 @@
 body{
-    /*background-image: url("../imatges/bush.png")*/
+    background-image: url("../imatges/bush.png")
 }
 
 canvas { 
@@ -17,21 +17,21 @@ canvas {
 }
 
 .contenidor_base{
-    border: 5px solid grey;
+    border: 5px solid black;
     height: 900px;
     float: left;
     width: 300px;
-    background-color: white;
 }
 .contenidor_eines{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     align-items: start;
-    height: 440px;
+    height: 450px;
     float: left;
-    width: 290px;
+    width: 300px;
     position: relative;
+    background-color: #d9d9d9;
 }
 
 img.icono{
@@ -56,9 +56,13 @@ img.icono{
 }
 
 .contenidor_opcions_eines{
-    height: 440px;
+    height: 450px;
     float: left;
-    width: 290px;
+    width: 300px;
+    background-color: #d9d9d9;
+}
+#mida_font{
+    width: 15%;
 }
 
 .editor_linea {
@@ -90,3 +94,7 @@ input[type=button]:focus{
     float: left;
 }
 
+#seleccionar-arxiu{
+    color: #0645AD;
+    text-decoration: underline;
+}

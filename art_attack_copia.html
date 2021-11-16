@@ -8,12 +8,6 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='css/estils_canvas.css'>
     <script src='js/main.js' type="module"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Pacifico&family=Permanent+Marker&display=swap"
-        rel="stylesheet">
 </head>
 
 <body id="cuerpo">
@@ -27,12 +21,10 @@
             <img icn_pulsado="imatges/clicked_square.png" icn_no_pulsado="imatges/square.png" class="icono"
                 id="icono_forma" pulsado="false" submenu="editor_geometrica" src="imatges/square.png" width="40"
                 height="40">
-            <img icn_pulsado="imatges/clicked_image.png" icn_no_pulsado="imatges/image.png" class="icono"
-                id="icono_imagen" pulsado="false" submenu="editor_imagen" src="imatges/image.png" width="40" height="40">
-            <img icn_pulsado="imatges/clicked_text.png" icn_no_pulsado="imatges/text.png" class="icono" id="icono_texto"
-                pulsado="false" submenu="editor_texto" src="imatges/text.png" width="40" height="40">
+            <img icn_pulsado="imatges/clicked_paper-clip.png" icn_no_pulsado="imatges/paper-clip.png" class="icono"
+                id="icono_clip" pulsado="false" src="imatges/paper-clip.png" width="40" height="40">
             <img icn_pulsado="imatges/clicked_save.png" icn_no_pulsado="imatges/save.png" class="icono"
-                id="icono_guardar" pulsado="false" submenu="editor_guardar" src="imatges/save.png" width="40"height="40">
+                id="icono_guardar" pulsado="false" submenu="editor_guardar" src="imatges/save.png" width="40" height="40">
             <img icn_pulsado="imatges/clicked_cross.png" icn_no_pulsado="imatges/cross.png" class="icono"
                 id="icono_cruz" pulsado="false" src="imatges/cross.png" width="40" height="40">
             <input class="color" type="color" id="selector_color">
@@ -46,8 +38,8 @@
                     <label id="grosor_linea_valor"></label>
                 </div>
                 <div>
-                    <input type="range" id="grosor_forma_dif_ma" name="points" min="5" max="25" value="5"
-                        oninput="document.getElementById('grosor_forma_dif_ma').innerHTML = this.value">
+                    <input type="range" id="grosor_linea_dif" name="points" min="5" max="25" value="5"
+                        oninput="document.getElementById('grosor_linea_valor').innerHTML = this.value">
                 </div>
                 <div>
                     <label for="opacitat"> Opacitat </label>
@@ -76,23 +68,17 @@
                     <label id="grosor_goma_valor"></label>
                 </div>
                 <div>
-                    <input type="range" id="grosor_forma_dif_ma" name="points" min="5" max="25" value="5"
-                        oninput="document.getElementById('grosor_forma_dif_ma').innerHTML = this.value">
+                    <input type="range" id="grosor_goma_dif" name="points" min="5" max="25" value="5"
+                        oninput="document.getElementById('grosor_goma_valor').innerHTML = this.value">
                 </div>
 
             </div>
             <div class="sub_caja" id="editor_geometrica" style="visibility: hidden;">
                 <div>
-                    <label for="linea"> Linea </label>
+                    <label for="Cuadrado"> Cuadrado </label>
                 </div>
                 <div>
-                    <input type="button" id="linea" name="linea">
-                </div>
-                <div>
-                    <label for="cuadrado"> Cuadrado </label>
-                </div>
-                <div>
-                    <input type="button" id="cuadrado" name="cuadrado">
+                    <input type="button" id="Cuadrado" name="Cuadrado">
                 </div>
                 <div>
                     <label for="rectangulo"> Rectangle </label>
@@ -131,24 +117,16 @@
                     <label for="forma_plena">Color fix</label>
                     <input type="radio" id="forma_imatge" name="emplenament" value="forma_imatge" checked="checked">
                     <label for="forma_imatge">Imatge</label>
+                    
                 </div>
                 <br>
-                <label for="arxiu" id="seleccionar-arxiu">Seleccionar imatge</label>
-                <input id="arxiu" type="file" style="visibility: hidden;"><br>
-                <div>
-                    <label for="tipus_linea">Tipus de linea:</label>
-                    <select id="tipus_linea" name="tipus_linea">
-                        <option value="1">Tipus1</option>
-                        <option value="2">Tipus2</option>
-                        <option value="3">Tipus3</option>
-                        <option value="4">Tipus4</option>
-                    </select>
-                </div>
+                <label for="arxiu" class="btn">Seleccionar imatge</label>
+                <input id ="arxiu" type="file" style="visibility: hidden;"><br>
+                  
                 <div>
                     <label for="grosor_linea"> Gruix</label>
                     <label id="grosor_forma_valor"></label>
                 </div>
-
                 <div>
                     <input type="range" id="grosor_forma_dif" name="points" min="5" max="25" value="5"
                         oninput="document.getElementById('grosor_forma_valor').innerHTML = this.value">
@@ -166,44 +144,6 @@
                 <label for="nom_arxiu"> Introdueix el nom de l'arxiu (sense extensió) </label>
                 <input type="text" id="nom_arxiu_guardar">
                 <button id="enviar_nom_arxiu">Enviar</button>
-            </div>
-            <div class="sub_caja" id="editor_texto" style="visibility: hidden;">
-
-                <div>
-                    <label for="text">Texto</label>
-                </div>
-                <div>
-                    <textarea rows="8" cols="25" id="text"></textarea>
-                </div>
-                <div>
-                    <label for="mida_font"> Mida font </label>
-                </div>
-                <div>
-                    <input type="number" id="mida_font" value="12" min="1" max="60" step="1" name="mida_font">
-                </div>
-                <div>
-                    <label for="select_font"> Tipus de text </label>
-                </div>
-                <div>
-                    <select name="font" id="select_font">
-                        <option value="Courier">Courier</option>
-                        <option value="Architects Daughter">Architects Daughter</option>
-                        <option value="Pacifico">Pacifico</option>
-                        <option value="Permanent Marker">Permanent Marker</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="tipus_font"> tipus de font </label>
-                </div>
-                <div>
-                    <input type="radio" id="font_normal" name="subtipus_font" value=" " checked>
-                    <label for="font_normal">Normal</label>
-                    <input type="radio" id="font_italic" name="subtipus_font" value="italic">
-                    <label for="font_italic">Cursiva</label>
-                    <input type="radio" id="font_italic" name="subtipus_font" value="bold">
-                    <label for="font_bold">Negreta</label>
-
-                </div>
             </div>
 
         </div>
