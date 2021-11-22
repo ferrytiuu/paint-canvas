@@ -6,27 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' type='text/css' media='screen' href='css/estils_video.css'>
-    <script type="text/javascript" src="js/video.js"></script>
-    <title>Document</title>
+    <script type="module" src="js/video.js"></script>
+    <title>Vídeo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"> 
 </head>
 
 <body>
-    <video controls class="video" id="video" preload="metadata" poster="../../../../../../Pictures/pics/kys.jpg">
-        <source src="video/ltg.mp4" type="video/mp4">
+    <video controls class="video" id="video" preload="metadata" >
+        <source src="video/canvas-video.mp4" type="video/mp4">
         </source>
     </video>
     <div class="controls" id="controls">
         <img src="imatges/play.png" id="playPausa">
         <img src="imatges/stop.png" id="stop">
+        <label id="tempsActual">0</label> /
+        <label id="tempsTotal"></label>
+        <img src="imatges/10secsb2.png" id="10sEnrere">
         <progress id="progres" value="0" max="100"></progress>
-        <input class="volum" id="volum"  type="range" max="100" min="0" step="1">
-        <label id="volum_valor"></label>
-        <img src="imatges/soundmute.png" id="silenciarVolum">
-        <img src="imatges/soundup.png" id="pujarVolum">
-        <img src="imatges/sounddown.png" id="baixarVolum">
-        <img src="imatges/fullscreen.png" id="pantallaCompleta">
+        <img src="imatges/10secsf2.png" id="10sEndavant">
+        
+        
+        <div class="velocitats">
+            <label id="vel0" active="false">x0.5</label>
+            <label id="vel1" active="true">x1</label>
+            <label id="vel2" active="false">x2</label>
+        </div>
+        <input class="volume" id="volume" value="1" type="range" max="1" min="0" step="0.01">
+        <img src="imatges/sound100.png" id="volum">
 
     </div>
+   <a href="index.html" class="paint">Comença a dibuixar ARA</a></label>
 </body>
 
 </html>

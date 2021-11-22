@@ -1,5 +1,5 @@
 body{
-    background-image: url("../imatges/bush.png")
+    /*background-image: url("../imatges/bush.png")*/
 }
 
 canvas { 
@@ -61,6 +61,13 @@ img.icono{
     width: 300px;
     background-color: #d9d9d9;
 }
+
+.contenidor_opcions_eines > *{
+    font-family: 'Arial';
+    padding-left: 10px;
+}
+
+
 #mida_font{
     width: 15%;
 }

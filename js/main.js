@@ -3,7 +3,6 @@ window.addEventListener('load', carga);
 
 function menu_seleccion_desactivar(elementos) {
     Array.prototype.forEach.call(elementos, function (caja) {
-        // Do stuff here
         console.log("cosa " + caja.getAttribute('icn_no_pulsado'));
         caja.src = caja.getAttribute('icn_no_pulsado');
         caja.setAttribute('pulsado', false)
@@ -11,7 +10,6 @@ function menu_seleccion_desactivar(elementos) {
     });
     let subCajas = document.getElementsByClassName("sub_caja");
     Array.prototype.forEach.call(subCajas, function (caja) {
-        // Do stuff here
         caja.style.display = "none";
         caja.style.visibility = "hidden";
 
@@ -30,13 +28,13 @@ function menu_seleccion_activar(elemento) {
     elemento.setAttribute("pulsado", "true");
     console.log("llega");
 
-
 }
 
 let isDrawing = false;
 let x = 0;
 let y = 0;
 let imatge_forma;
+let imatge_insertar;
 
 const canvas = document.getElementById('area');
 const context = canvas.getContext('2d');
@@ -51,8 +49,6 @@ function carga() {
             families: ['Permanent Marker', 'Architects Daughter','Pacifico']
         }
       });
-
-
 
     document.getElementById('icono_pincel').addEventListener('click', function (e) {
 
@@ -70,9 +66,6 @@ function carga() {
             menu_seleccion_desactivar(document.getElementsByClassName("icono"));
             menu_seleccion_activar(this);
             dibujar_pincel();
-            //crear eventos
-
-
 
         }
 
@@ -96,11 +89,37 @@ function carga() {
 
         }
     });
-
+    
     document.getElementById("arxiu").addEventListener('change', function () {
-        imatge_forma = document.querySelector('input[type=file]').files[0];
+        imatge_forma = document.getElementById("arxiu").files[0];
+        console.log(imatge_forma);
     });
+    /*document.getElementById("pujar_arxiu_seleccio").addEventListener('change', function (e) {
+        imatge_insertar  = document.getElementById("pujar_arxiu_seleccio").files[0];
+        console.log("Imaget a insertar: "+imatge_insertar);   
+    });*/
 
+    document.getElementById('icono_imagen').addEventListener('click', function (e) {
+        console.log("aqui");
+
+        let estado = this.getAttribute("pulsado");
+
+        if (estado === 'true') {
+
+            menu_seleccion_desactivar(document.getElementsByClassName("icono"));
+            this.setAttribute("pulsado", "false");
+            eliminar_eventos();
+
+        }
+        else {
+            eliminar_eventos();
+            menu_seleccion_desactivar(document.getElementsByClassName("icono"));
+            menu_seleccion_activar(this);
+            dibujar_imagen_insertar();
+
+        }
+
+    });
     document.getElementById('icono_forma').addEventListener('click', function (e) {
 
         let estado = this.getAttribute("pulsado");
@@ -116,10 +135,6 @@ function carga() {
             eliminar_eventos();
             menu_seleccion_desactivar(document.getElementsByClassName("icono"));
             menu_seleccion_activar(this);
-
-            //crear eventos
-
-
 
         }
 
@@ -143,12 +158,35 @@ function carga() {
 
         }
     });
+    document.getElementById('icono_seleccion').addEventListener('click', function (e) {
+
+        let estado = this.getAttribute("pulsado");
+
+        if (estado === 'true') {
+
+            menu_seleccion_desactivar(document.getElementsByClassName("icono"));
+            this.setAttribute("pulsado", "false");
+            eliminar_eventos();
+
+        }
+        else {
+            eliminar_eventos();
+            menu_seleccion_desactivar(document.getElementsByClassName("icono"));
+            menu_seleccion_activar(this);
+            rotar_seleccio();
+
+        }
+
+    });
     document.getElementById("linea").addEventListener("click", dibujar_geometria_linea);
     document.getElementById("cuadrado").addEventListener("click", dibujar_geometria_cuadrado);
     document.getElementById("rectangulo").addEventListener("click", dibujar_geometria_rectangulo);
     document.getElementById("triangulo").addEventListener("click", dibujar_geometria_triangulo);
     document.getElementById("cercle").addEventListener("click", dibujar_geometria_circulo);
     //document.getElementById("rombe").addEventListener("click", dibujar_geometria_rombe);
+    document.getElementById("negatiu").addEventListener("click", canvas_negatiu);
+    document.getElementById("gris").addEventListener("click", canvas_gris);
+
 
     document.getElementById('icono_guardar').addEventListener('click', function (e) {
 
@@ -175,6 +213,53 @@ function carga() {
         }
     });
 
+    document.getElementById('enviar_nom_arxiu').addEventListener('click', function (e) {
+        let link = document.createElement('a');
+        let nomarxiu = document.getElementById('nom_arxiu_guardar').value;
+        console.log(nomarxiu);
+        link.download = nomarxiu + '.png';
+        link.href = canvas.toDataURL();
+        link.click();
+        link.delete;
+    });
+
+
+}
+function canvas_negatiu() {
+    console.log("se pasa el canvas a negativo");
+    var destX = 0;
+    var destY = 0;
+
+    var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    var pixels = imageData.data;
+    for (var i = 0; i < pixels.length; i += 4) {
+        pixels[i] = 255 - pixels[i]; // red
+        pixels[i+1] = 255 - pixels[i+1]; // green
+        pixels[i+2] = 255 - pixels[i+2]; // blue
+        // i+3 es alpha
+    }
+    // modifiquem original
+    context.putImageData(imageData, 0, 0);
+
+
+}
+function canvas_gris() {
+    console.log("se pasa el canvas a gris");
+    var destX = 0;
+    var destY = 0;
+
+    var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    var pixels = imageData.data;
+    for (var i = 0; i < pixels.length; i += 4) {
+        var med = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
+        // set it to each value (r = g = b = med)
+        pixels[i] = pixels[i + 1] = pixels[i + 2] = med;
+
+
+        // i+3 es alpha
+    }
+    // modifiquem original
+    context.putImageData(imageData, 0, 0);
 
 
 }
@@ -270,6 +355,40 @@ function goma_levantar(e) {
     }
 
 }
+
+
+function dibujar_imagen_insertar() {
+    eliminar_eventos();
+    console.log("se crea enventos de geometria linea")
+    canvas.addEventListener('mousedown', imagen_click);
+    canvas.addEventListener('mousemove', imagen_moviendo);
+    canvas.addEventListener('mouseup', imagen_levantar);
+
+}
+function imagen_click(e) {
+    x = e.offsetX;
+    y = e.offsetY;
+    isDrawing = true;
+}
+function imagen_moviendo(e) {
+    if (isDrawing === true) {
+        drawCtx.clearRect(0, 0, 1500, 900);
+        Seleecion_insertar_imagen(drawCtx, x, y, e.offsetX - x, e.offsetY - y, true);
+
+    }
+}
+function imagen_levantar(e) {
+    if (isDrawing === true) {
+        Seleecion_insertar_imagen(context, x, y, e.offsetX - x, e.offsetY - y, false);
+        drawCtx.clearRect(0, 0, 1500, 900);
+        x = 0;
+        y = 0;
+        isDrawing = false;
+    }
+
+}
+
+
 function dibujar_geometria_cuadrado() {
     eliminar_eventos();
     console.log("se crea enventos de geometria linea")
@@ -285,8 +404,6 @@ function cuadrado_click(e) {
 }
 function cuadrado_moviendo(e) {
     if (isDrawing === true) {
-
-
         //drawCtx.setTransform(1,0,0,1,0,0);
         drawCtx.clearRect(0, 0, 1500, 900);
         dibujarCuadrado(drawCtx, x, y, e.offsetX - x, e.offsetY - y, false);
@@ -359,12 +476,6 @@ function triangulo_moviendo(e) {
 }
 function triangulo_levantar(e) {
     if (isDrawing === true) {
-
-        /*
-        dibujarLinea(context,x ,e.offsetY,e.offsetX, e.offsetY);
-        dibujarLinea(context,x+(e.offsetX-x)/2 ,y,x ,e.offsetY);
-        dibujarLinea(context,x+(e.offsetX-x)/2 ,y,e.offsetX, e.offsetY);
-        */
         dibujarTriangulo(context, x, y, e.offsetX, e.offsetY);
         drawCtx.clearRect(0, 0, 1500, 900);
         x = 0;
@@ -397,12 +508,6 @@ function circulo_moviendo(e) {
 }
 function circulo_levantar(e) {
     if (isDrawing === true) {
-
-        /*
-        dibujarLinea(context,x ,e.offsetY,e.offsetX, e.offsetY);
-        dibujarLinea(context,x+(e.offsetX-x)/2 ,y,x ,e.offsetY);
-        dibujarLinea(context,x+(e.offsetX-x)/2 ,y,e.offsetX, e.offsetY);
-        */
         dibujarCirculo(context, x, y, e.offsetX, e.offsetY);
         drawCtx.clearRect(0, 0, 1500, 900);
         x = 0;
@@ -411,6 +516,7 @@ function circulo_levantar(e) {
     }
 
 }
+/*
 function dibujar_geometria_rombe() {
     eliminar_eventos()
     console.log("se crea enventos de geometria linea")
@@ -420,20 +526,11 @@ function dibujar_geometria_rombe() {
 
 }
 function rombe_click(e) {
-
-    //drawCtx.save();
-
     x = e.offsetX;
     y = e.offsetY;
     isDrawing = true;
     let deg = Math.PI / 180;
-    trasladar(drawCtx, x, y);
-    drawCtx.rotate(45 * deg);
-
-
-
-
-
+    trasladar(drawCtx,document.getElementById("Rotar").value, x, y);
 
 }
 function rombe_moviendo(e) {
@@ -444,15 +541,9 @@ function rombe_moviendo(e) {
         dibujarRombe(drawCtx, x, y, e.offsetX, e.offsetY);
     }
 }
+
 function rombe_levantar(e) {
     if (isDrawing === true) {
-
-        /*
-        dibujarLinea(context,x ,e.offsetY,e.offsetX, e.offsetY);
-        dibujarLinea(context,x+(e.offsetX-x)/2 ,y,x ,e.offsetY);
-        dibujarLinea(context,x+(e.offsetX-x)/2 ,y,e.offsetX, e.offsetY);
-        */
-
         let deg = Math.PI / 180;
         //trasladar(context, x, y);
         context.rotate(45 * deg);
@@ -464,13 +555,9 @@ function rombe_levantar(e) {
         isDrawing = false;
         drawCtx.setTransform(1, 0, 0, 1, 0, 0);
         context.setTransform(1, 0, 0, 1, 0, 0);
-
-
-
-
     }
 
-}
+}*/
 function dibujar_texto_rectangulo() {
     eliminar_eventos();
     console.log("se crea enventos de rectangulo texto")
@@ -502,6 +589,39 @@ function rectangulo_texto_levantar(e) {
     }
 
 }
+/*
+function rotar_seleccio() {
+    console.log("se crea enventos de pincel")
+    canvas.addEventListener('mousedown', rotar_click);
+    canvas.addEventListener('mousemove', rotar_click_moviendo);
+    canvas.addEventListener('mouseup', rotar_click_levantar);
+
+}
+function rotar_click(e) {
+    x = e.offsetX;
+    y = e.offsetY;
+    isDrawing = true;
+    
+}
+function rotar_click_moviendo(e) {
+    if (isDrawing === true) {
+        drawCtx.clearRect(0, 0, 1500, 900);
+        Seleecio_rotar(drawCtx, x, y , e.offsetX - x, e.offsetY - y,e.offsetX,e.offsetY, true);
+
+    }
+}
+function rotar_click_levantar(e) {
+    if (isDrawing === true) {
+        Seleecio_rotar(context, x, y , e.offsetX - x, e.offsetY - y,e.offsetX,e.offsetY, false);
+        drawCtx.clearRect(0, 0, 1500, 900);
+       
+        x = 0;
+        y = 0;
+        isDrawing = false;
+    }
+
+}
+*/
 function eliminar_eventos() {
     console.log("se ejecuta eliminar eventos");
 
@@ -533,14 +653,25 @@ function eliminar_eventos() {
     canvas.removeEventListener('mousemove', circulo_moviendo);
     canvas.removeEventListener('mouseup', circulo_levantar);
 
+    /*
     canvas.removeEventListener('mousedown', rombe_click);
     canvas.removeEventListener('mousemove', rombe_moviendo);
     canvas.removeEventListener('mouseup', rombe_levantar);
+    */
 
     canvas.removeEventListener('mousedown', rectangulo_texto_click);
     canvas.removeEventListener('mousemove', rectangulo_text_moviendo);
     canvas.removeEventListener('mouseup', rectangulo_texto_levantar);
 
+    canvas.removeEventListener('mousedown', imagen_click);
+    canvas.removeEventListener('mousemove', imagen_moviendo);
+    canvas.removeEventListener('mouseup', imagen_levantar);
+
+    /*
+    canvas.removeEventListener('mousedown', rotar_click);
+    canvas.removeEventListener('mousemove', rotar_click_moviendo);
+    canvas.removeEventListener('mouseup', rotar_click_levantar);
+    */
 
 
 }
@@ -629,7 +760,7 @@ function dibujarLinea(context2, x1, y1, x2, y2) {
 function borrarLinea(context2, x1, y1, x2, y2) {
     console.log("borrar");
     //context2.beginPath();
-    let grosor = document.getElementById('grosor_forma_dif_ma').value;
+    let grosor = document.getElementById('grosor_forma_dif_goma').value;
     //context2.moveTo(x2, y2);
     //context2.closePath();
     context2.clearRect(x2, y2, grosor, grosor);
@@ -669,7 +800,6 @@ function dibujarCuadrado(context2, x1, y1, x2, y2, final) {
         console.log('normal');
         context2.setLineDash([20, 5]);
     }
-
 
     context2.strokeStyle = colorOpacitatVora;
     context2.fillStyle = colorOpacitatFons;
@@ -794,7 +924,6 @@ function dibujarTriangulo(context2, x1, y1, x2, y2) {
         context2.setLineDash([20, 5]);
     }
 
-
     context2.strokeStyle = colorOpacitatVora;
     context2.fillStyle = colorOpacitatFons;
 
@@ -829,26 +958,6 @@ function dibujarTriangulo(context2, x1, y1, x2, y2) {
         context2.stroke();
     }
     
-    /*if (document.getElementById('forma_plena').checked == true) {
-        context2.fillRect(x1, y1, x2, y2);
-        context2.strokeRect(x1, y1, x2, y2);
-
-    } else if (document.getElementById('forma_imatge').checked == true) {
-        console.log(imatge_forma.name);
-        let imatge = new Image();
-        imatge.src = URL.createObjectURL(imatge_forma);
-        imatge.onload = function(){
-            let pattern = context2.createPattern(imatge, 'repeat');
-            context2.fillStyle = pattern;
-            context2.fillRect(x1, y1, x2, y2);
-        }
-        context2.strokeRect(x1, y1, x2, y2);
-    } else {
-        context2.moveTo(x1, y1);
-        context2.strokeRect(x1, y1, x2, y2);
-    }*/
-
-
 }
 function dibujarCirculo(context2, x1, y1, x2, y2) {
 
@@ -877,7 +986,6 @@ function dibujarCirculo(context2, x1, y1, x2, y2) {
         context2.setLineDash([20, 5]);
     }
 
-
     context2.strokeStyle = colorOpacitatVora;
     context2.fillStyle = colorOpacitatFons;
     context2.lineWidth = document.getElementById('grosor_forma_dif').value;
@@ -888,16 +996,25 @@ function dibujarCirculo(context2, x1, y1, x2, y2) {
     let diferenciaY = (y2 - y1) + y1;
     context2.arc(diferenciaX, diferenciaY, radio, 0, 2 * Math.PI, false);
 
-    context2.strokeStyle = '#003300';
     if (document.getElementById('forma_plena').checked == true) {
         context2.stroke();
         context2.fill();
+    } else if (document.getElementById('forma_imatge').checked == true) {
+        context2.stroke();let imatge = new Image();
+        imatge.src = URL.createObjectURL(imatge_forma);
+        imatge.onload = function(){
+            let pattern = context2.createPattern(imatge, 'repeat');
+            context2.fillStyle = pattern;
+            context2.fill();
+        }
+        context2.stroke();
     } else {
         context2.stroke();
     }
 
     console.log(x1, y1, x2, y2)
 }
+/*
 function dibujarRombe(context2, x1, y1, x2, y2) {
 
 
@@ -937,6 +1054,7 @@ function dibujarRombe(context2, x1, y1, x2, y2) {
 
     console.log(x1, y1, x2, y2)
 }
+*/
 function dibujartextoRectangulo(context2, x1, y1, x2, y2, estado) {
 
     console.log("cargas rectangulo");
@@ -963,14 +1081,10 @@ function dibujartextoRectangulo(context2, x1, y1, x2, y2, estado) {
     let lineHeight = 40;
     let font = document.getElementById('mida_font').value;
     let tipus_font = document.getElementById('select_font').options[document.getElementById('select_font').selectedIndex].value;
-
     let sub_tipus = document.querySelector('input[name="subtipus_font"]:checked').value;
-
 
     context2.font = `${sub_tipus} ${font}px ${tipus_font}`
 
-
-    ///
 
     x2 = x2 || 0;
 
@@ -998,51 +1112,85 @@ function dibujartextoRectangulo(context2, x1, y1, x2, y2, estado) {
     if (idx > 0)
         context2.fillText(words.join(' '), x, y + (lineHeight * currentLine), x2);
 
-    /////
-
     if (estado) {
-        if (document.getElementById('forma_plena').checked == true) {
-            context2.fillRect(x1, y1, x2, y2);
-            context2.strokeRect(x1, y1, x2, y2);
-
-        } else {
             context2.moveTo(x1, y1);
             context2.strokeRect(x1, y1, x2, y2);
-        }
 
     }
 
     console.log(x1, y1, x2, y2)
 }
-function trasladar(context2, x1, y1) {
-    /*
-    let width = Math.abs(x2 - x1) * (x2 < x1 ? -1 : 1);
-    let height = Math.abs(width) * (y2 < y1 ? -1 : 1);
+function Seleecion_insertar_imagen(context2, x1, y1, x2, y2,estado) {
 
-    let diferenciaX = (x1+height)/2;
-    let diferenciaY =  (y1+width)/2;
+    console.log("cargas imagen");
+  
 
-    */
+    let imatge_source = document.getElementById('imatge_precarregade').options[document.getElementById('imatge_precarregade').selectedIndex].value;
+
+    context2.setLineDash([10, 10]);
+    if (estado) {
+        context2.strokeRect(x1, y1, x2, y2);
+
+    }
+    context2.stroke();
+    let imatge = new Image();
+    imatge.src = imatge_source;
+    imatge.onload = function(){
+        context2.drawImage(imatge, x1, y1 , x2,y2);
+    }
 
 
+
+}
+/*
+function Seleecio_rotar(context2, x1, y1, x2, y2,x3,y3,estado) {
+
+    console.log("cargas imagen");
+  
+
+    let imatge_source = document.getElementById('imatge_precarregade').options[document.getElementById('imatge_precarregade').selectedIndex].value;
+
+    context2.setLineDash([10, 10]);
+    if (estado) {
+        console.log("nada");
+        context2.strokeRect(x1, y1, x2, y2);
+        return
+
+    }
+
+    context2.save();
+    var imageData = context.getImageData(x1, y1, x2, y2);
+    
+    context2.clearRect(x1,y1,x2, y2);
+    console.log("Hace la intencion "+x1,y1,x2, y2)
+    
+    let xmedia = (x1+x3)/2;
+    let ymedia = (y1+y3)/2;
+    console.log("Puntos medios: "+xmedia+" "+ymedia);
+    //trasladar(context2,document.getElementById("Rotar").value, xmedia, ymedia)
+
+    let angulo = document.getElementById("Rotar").value
+    
+    context.translate(x1, y1);
+    context.rotate(45 * Math.PI / 180);
+    
+    console.log(x1,y1,angulo)
+
+    context.putImageData(imageData, 0,0);
+
+    
+
+    context.setTransform(1, 0, 0, 1, 0, 0);
+
+}
+function trasladar(context2,angulo, x1, y1) {
+    
+    
+    
     context2.translate(x1, y1);
-
-    //console.log("diferenciaX: "+diferenciaX+"diferenciaY: "+diferenciaY);
-
+    context2.rotate(Number.parseInt(angulo) * (Math.PI / 180));
+    console.log(x1,y1,Number.parseInt(angulo))
 
 }
+*/
 
-function guardar() {
-    let link = document.createElement('a');
-    let nomarxiu = document.getElementById('nom_arxiu_guardar').value;
-    console.log(nomarxiu);
-    link.download = nomarxiu + '.png';
-    link.href = canvas.toDataURL();
-    link.click();
-    link.delete;
-}
-
-
-document.getElementById('enviar_nom_arxiu').addEventListener('click', function (e) {
-    guardar();
-});
